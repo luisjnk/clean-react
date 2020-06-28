@@ -1,7 +1,7 @@
 import RemoteAuthentication from "./remote-authentication"
-import { HttpPostClientSpy } from "../../../test/mock-http-client"
 import faker from "faker"
-import { mockAuthentication } from "../../../test/mock-authentication"
+import { mockAuthentication } from "@/test/mock-authentication"
+import { HttpPostClientSpy } from "@/test/mock-http-client"
 interface SutTyoes {
   sut: RemoteAuthentication,
   httpPostClientSpy: HttpPostClientSpy
