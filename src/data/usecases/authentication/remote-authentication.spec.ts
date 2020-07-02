@@ -6,12 +6,14 @@ import { InvalidCredentialsError } from "@/domain/errors/invalid-credentials-err
 import { HttpStatusCode } from "@/data/protocols/http/http-response"
 import { UnexpectedError } from "@/domain/errors/unexpected-error"
 import { ServerError } from "@/domain/errors/server-error"
+import { AuthenticationParms } from "@/domain/usecases/authentication"
+import { AccountModel } from "@/domain/models/account-model"
 interface SutTyoes {
   sut: RemoteAuthentication,
-  httpPostClientSpy: HttpPostClientSpy
+  httpPostClientSpy: HttpPostClientSpy<AuthenticationParms, AccountModel>
 }
 const makeSut = (url = faker.internet.url()): SutTyoes => {
-  const httpPostClientSpy = new HttpPostClientSpy()
+  const httpPostClientSpy = new HttpPostClientSpy<AuthenticationParms, AccountModel>()
   const sut = new RemoteAuthentication(url, httpPostClientSpy);
   return {
     sut, 

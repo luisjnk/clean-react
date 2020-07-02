@@ -6,11 +6,12 @@ import { UnexpectedError } from "@/domain/errors/unexpected-error";
 import { NotFoundError } from "@/domain/errors/not-found-error";
 import { BadRequestError } from "@/domain/errors/badRequest-error";
 import { ServerError } from "@/domain/errors/server-error";
+import { AccountModel } from "@/domain/models/account-model";
 
 export default class RemoteAuthentication {
   constructor(
     private readonly url: string,
-    private readonly httpPostClient: HttpPostClient
+    private readonly httpPostClient: HttpPostClient<AuthenticationParms, AccountModel>
   ) { }
 
   async auth(params: AuthenticationParms): Promise<void> {
