@@ -5,6 +5,7 @@ import { HttpPostClientSpy } from "@/test/mock-http-client"
 import { InvalidCredentialsError } from "@/domain/errors/invalid-credentials-error"
 import { HttpStatusCode } from "@/data/protocols/http/http-response"
 import { UnexpectedError } from "@/domain/errors/unexpected-error"
+import { ServerError } from "@/domain/errors/server-error"
 interface SutTyoes {
   sut: RemoteAuthentication,
   httpPostClientSpy: HttpPostClientSpy
@@ -53,5 +54,25 @@ describe('RemoteAuthentication', () => {
     const authenticationParams = mockAuthentication()
     const promise = sut.auth(authenticationParams)
     expect(promise).rejects.toThrow(new UnexpectedError())
+  })
+
+  test('Should throw NotFound if HttpPostClient returns 404', async () => {
+    const { sut, httpPostClientSpy } = makeSut()
+    httpPostClientSpy.response = {
+      statusCode: HttpStatusCode.notFound
+    }
+    const authenticationParams = mockAuthentication()
+    const promise = sut.auth(authenticationParams)
+    expect(promise).rejects.toThrow(new UnexpectedError())
+  })
+
+  test('Should throw ServerError if HttpPostClient returns 500', async () => {
+    const { sut, httpPostClientSpy } = makeSut()
+    httpPostClientSpy.response = {
+      statusCode: HttpStatusCode.serverError
+    }
+    const authenticationParams = mockAuthentication()
+    const promise = sut.auth(authenticationParams)
+    expect(promise).rejects.toThrow(new ServerError())
   })
 })
