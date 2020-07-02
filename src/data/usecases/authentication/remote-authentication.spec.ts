@@ -8,6 +8,8 @@ import { UnexpectedError } from "@/domain/errors/unexpected-error"
 import { ServerError } from "@/domain/errors/server-error"
 import { AuthenticationParms } from "@/domain/usecases/authentication"
 import { AccountModel } from "@/domain/models/account-model"
+import { BadRequestError } from "@/domain/errors/badRequest-error"
+import { NotFoundError } from "@/domain/errors/not-found-error"
 interface SutTyoes {
   sut: RemoteAuthentication,
   httpPostClientSpy: HttpPostClientSpy<AuthenticationParms, AccountModel>
@@ -45,7 +47,7 @@ describe('RemoteAuthentication', () => {
     }
     const authenticationParams = mockAuthentication()
     const promise = sut.auth(authenticationParams)
-    expect(promise).rejects.toThrow(new InvalidCredentialsError())
+    await expect(promise).rejects.toThrow(new InvalidCredentialsError())
   })
 
   test('Should throw Unexpectederror if HttpPostClient returns 400', async () => {
@@ -55,7 +57,7 @@ describe('RemoteAuthentication', () => {
     }
     const authenticationParams = mockAuthentication()
     const promise = sut.auth(authenticationParams)
-    expect(promise).rejects.toThrow(new UnexpectedError())
+    await expect(promise).rejects.toThrow(new BadRequestError())
   })
 
   test('Should throw NotFound if HttpPostClient returns 404', async () => {
@@ -65,7 +67,7 @@ describe('RemoteAuthentication', () => {
     }
     const authenticationParams = mockAuthentication()
     const promise = sut.auth(authenticationParams)
-    expect(promise).rejects.toThrow(new UnexpectedError())
+    await expect(promise).rejects.toThrow(new NotFoundError())
   })
 
   test('Should throw ServerError if HttpPostClient returns 500', async () => {
@@ -75,6 +77,6 @@ describe('RemoteAuthentication', () => {
     }
     const authenticationParams = mockAuthentication()
     const promise = sut.auth(authenticationParams)
-    expect(promise).rejects.toThrow(new ServerError())
+    await expect(promise).rejects.toThrow(new ServerError())
   })
 })
