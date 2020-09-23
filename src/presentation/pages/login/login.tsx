@@ -7,7 +7,7 @@ const Login: React.FC = () => {
   return (
     <div className={Styles.login}>
       <header className={Styles.header}>
-        <Logo  />
+        <Logo />
         <h1> 4Dev</h1>
       </header>
       <form className={Styles.form}>
