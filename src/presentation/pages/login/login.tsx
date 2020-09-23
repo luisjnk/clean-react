@@ -1,15 +1,12 @@
 import React from 'react';
 import Styles from './login-style.scss';
 import Spinner from '@/presentation/components/spinner/spinner';
-import Logo from '@/presentation/components/logo/logo';
+import LoginHeader from '@/presentation/components/login-header/login-header';
 
 const Login: React.FC = () => {
   return (
     <div className={Styles.login}>
-      <header className={Styles.header}>
-        <Logo />
-        <h1> 4Dev</h1>
-      </header>
+      <LoginHeader />
       <form className={Styles.form}>
         <h2>Login</h2>
         <div className={Styles.inputWrap}>
@@ -23,7 +20,7 @@ const Login: React.FC = () => {
         <button className={Styles.submit} type="submit"> Login </button>
         <span className={Styles.link}>Sign up</span>
         <div className={Styles.errorWrap}>
-          <Spinner className={Styles.spinner}/>
+          <Spinner className={Styles.spinner} />
           <span className={Styles.error}>Error</span>
         </div>
       </form>
