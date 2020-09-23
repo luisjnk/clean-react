@@ -17,6 +17,30 @@ body {
   background-color: $background;
 }
 
+input[type="password"],
+input[type="email"] {
+  border: 1px solid $primaryLight;
+  line-height: 40px;
+  border-radius: 4px;
+
+  &:focus {
+    outline-color: $primaryLight;
+  }
+}
+
+button {
+  background-color: $primary;
+  color: $white;
+  border-radius: 8px;
+  font-size: 16px;
+  border: none;
+  line-height: 60px;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
 .login {
   display: flex;
   flex-direction: column;
@@ -30,10 +54,21 @@ body {
     border-top: 40px solid $primaryDark;
     background-color: $primary;
     align-items: center;
+
+    img {
+      margin-top: 48px;
+    }
+
+    h1 {
+      color: $white;
+      margin: 16px 0px 40px;
+    }
   }
 
   .form {
-
+    display: flex;
+    flex-direction: column;
+    width: 400px;
   }
 
   .footer {
