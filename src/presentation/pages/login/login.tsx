@@ -2,6 +2,7 @@ import React from 'react';
 import Styles from './login-style.scss';
 import Spinner from '@/presentation/components/spinner/spinner';
 import LoginHeader from '@/presentation/components/login-header/login-header';
+import Footer from "@/presentation/components/footer/footer";
 
 const Login: React.FC = () => {
   return (
@@ -23,8 +24,8 @@ const Login: React.FC = () => {
           <Spinner className={Styles.spinner} />
           <span className={Styles.error}>Error</span>
         </div>
+        <Footer />
       </form>
-      <footer className={Styles.footer}></footer>
     </div>
   )
 }
