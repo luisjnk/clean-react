@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Login } from '@/presentation/pages';
+import { App } from '@/presentation/pages';
 
 ReactDOM.render(
-    <Login />,
+    <App />,
     document.getElementById('main')
 )
