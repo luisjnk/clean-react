@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@testing-library/react": "^11.0.4",
     "@types/axios": "^0.14.0",
     "@types/faker": "^4.1.12",
     "@types/jest": "^26.0.3",
