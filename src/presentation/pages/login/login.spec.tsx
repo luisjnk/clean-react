@@ -9,4 +9,10 @@ describe('Login tests', () => {
     const errorWrap = getByTestId('error-wrap')
     expect(errorWrap.childElementCount).toBe(0)
   })
+
+  test('Ensure login button is disabled', () => {
+    const { getByTestId } = render(<Login />)
+    const loginButton = getByTestId('login-button') as HTMLButtonElement
+    expect(loginButton.disabled).toBe(true)
+  })
 })
