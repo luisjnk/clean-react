@@ -9,7 +9,6 @@ type Props = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>
 const Input: React.FC<Props> = (props: Props) => {
 
   const getStatus = () => {
-    console.log("AQUI")
     return <Required name={props.name}/>
   }
 
