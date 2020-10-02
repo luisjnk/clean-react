@@ -2,6 +2,7 @@
 import React from 'react'
 import { render, fireEvent, waitFor, screen } from '@testing-library/react'
 import Login from './login';
+import { ERROR_MESSAGES } from '@/presentation/utils/contants';
 
 describe('Login tests', () => {
   test('Ensure not render spinner and error on start', () => {
@@ -14,5 +15,16 @@ describe('Login tests', () => {
     const { getByTestId } = render(<Login />)
     const loginButton = getByTestId('login-button') as HTMLButtonElement
     expect(loginButton.disabled).toBe(true)
+  })
+
+
+  test('Ensure login button is disabled', () => {
+    const { getByTestId } = render(<Login />)
+
+    const emailStatus = getByTestId('email-status')
+    expect(emailStatus.title).toBe(ERROR_MESSAGES.REQUIRED_FIELD)
+
+    const passwordStatus = getByTestId('password-status')
+    expect(passwordStatus.title).toBe(ERROR_MESSAGES.REQUIRED_FIELD)
   })
 })

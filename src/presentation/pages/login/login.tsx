@@ -7,15 +7,21 @@ import {
   FormStatus
 } from '@/presentation/components/';
 import Context from '../../context/form/form-context';
+import { ERROR_MESSAGES } from '@/presentation/utils/contants';
 
 type StatePros = {
   isLoading: boolean,
-  isError: boolean
+  isError: boolean,
+  emailError: string,
+  passwordError: string
 }
 
 const INITAL_STATE: StatePros = {
   isLoading: false,
-  isError: false
+  isError: false,
+  emailError: ERROR_MESSAGES.REQUIRED_FIELD,
+  passwordError: ERROR_MESSAGES.REQUIRED_FIELD
+
 }
 
 const Login: React.FC = () => {
