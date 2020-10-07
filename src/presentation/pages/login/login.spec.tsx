@@ -1,17 +1,31 @@
 // __tests__/fetch.test.js
 import React from 'react'
-import { render, RenderResult, waitFor, screen } from '@testing-library/react'
+import { render, RenderResult, fireEvent, screen } from '@testing-library/react'
 import Login from './login';
 import { ERROR_MESSAGES } from '@/presentation/utils/contants';
+import { Validation } from '@/presentation/protocols/validation';
 
 type SutTypes = {
   sut: RenderResult
+  validationSpy: ValidationSpy
+}
+
+class ValidationSpy implements Validation {
+  errorMessage: string
+  input: object
+
+  validate(input: object): string {
+    this.input = input
+    return this.errorMessage
+  }
 }
 
 const makeSut = (): SutTypes => {
-  const sut = render(<Login />)
+  const validationSpy = new ValidationSpy();
+  const sut = render(<Login validation={validationSpy} />)
   return {
-    sut
+    sut,
+    validationSpy
   }
 }
 describe('Login tests', () => {
@@ -24,20 +38,18 @@ describe('Login tests', () => {
   })
 
   test('Ensure login button is disabled', () => {
-    const { getByTestId } = render(<Login />)
+    const { sut } = makeSut()
+    const { getByTestId } = sut
+    
     const loginButton = getByTestId('login-button') as HTMLButtonElement
     expect(loginButton.disabled).toBe(true)
   })
 
+  test('Should call validation with correct value', () => {
+    const { sut, validationSpy } = makeSut();
+    const emailInput = sut.getByTestId('email')
 
-  test('Ensure login button is disabled', () => {
-    const { sut } = makeSut()
-    const { getByTestId } = sut
-    
-    const emailStatus = getByTestId('email-status')
-    expect(emailStatus.title).toBe(ERROR_MESSAGES.REQUIRED_FIELD)
-
-    const passwordStatus = getByTestId('password-status')
-    expect(passwordStatus.title).toBe(ERROR_MESSAGES.REQUIRED_FIELD)
+    fireEvent.input(emailInput, { target: { value: 'any_email' } })
+    expect(validationSpy.input).toEqual({ email: 'any_email' })
   })
 })
