@@ -15,7 +15,8 @@ type StatePros = {
   isError: boolean,
   emailError: string,
   passwordError: string
-  email: string
+  email: string,
+  password: string
 }
 
 const INITAL_STATE: StatePros = {
@@ -23,7 +24,8 @@ const INITAL_STATE: StatePros = {
   isError: false,
   emailError: ERROR_MESSAGES.REQUIRED_FIELD,
   passwordError: ERROR_MESSAGES.REQUIRED_FIELD,
-  email: ''
+  email: '',
+  password: ''
 }
 
 type Props = {
@@ -36,6 +38,10 @@ const Login: React.FC<Props> = ({ validation }: Props) => {
   useEffect(() => {
     validation.validate({email: state.email})
   }, [state.email])
+
+  useEffect(() => {
+    validation.validate({password: state.password})
+  }, [state.password])
 
   return (
     <div className={Styles.login}>

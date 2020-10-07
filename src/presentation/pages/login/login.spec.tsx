@@ -40,16 +40,24 @@ describe('Login tests', () => {
   test('Ensure login button is disabled', () => {
     const { sut } = makeSut()
     const { getByTestId } = sut
-    
+
     const loginButton = getByTestId('login-button') as HTMLButtonElement
     expect(loginButton.disabled).toBe(true)
   })
 
-  test('Should call validation with correct value', () => {
+  test('Should call validation with correct email', () => {
     const { sut, validationSpy } = makeSut();
     const emailInput = sut.getByTestId('email')
 
     fireEvent.input(emailInput, { target: { value: 'any_email' } })
     expect(validationSpy.input).toEqual({ email: 'any_email' })
+  })
+
+  test('Should call validation with correct password', () => {
+    const { sut, validationSpy } = makeSut();
+    const passwordInput = sut.getByTestId('password')
+
+    fireEvent.input(passwordInput, { target: { value: 'any_password' } })
+    expect(validationSpy.input).toEqual({ password: 'any_password' })
   })
 })
