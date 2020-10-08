@@ -79,4 +79,26 @@ describe('Login tests', () => {
     const passwordStatus = sut.getByTestId('password-status')
     expect(passwordStatus.title).toEqual(validationSpy.errorMessage)
   })
+
+  test('Should not show password error because validation works', () => {
+    const { sut, validationSpy } = makeSut();
+    validationSpy.errorMessage = null
+    const passwordInput = sut.getByTestId('password')
+    const password = faker.internet.password()
+
+    fireEvent.input(passwordInput, { target: { value: password } })
+    const passwordStatus = sut.getByTestId('password-status')
+    expect(passwordStatus.title).toEqual('passwordSuccess')
+  })
+
+  test('Should not show email error because validation works', () => {
+    const { sut, validationSpy } = makeSut();
+    validationSpy.errorMessage = null
+    const emailInput = sut.getByTestId('email')
+    const email = faker.internet.email()
+
+    fireEvent.input(emailInput, { target: { value: email } })
+    const emailStatus = sut.getByTestId('email-status')
+    expect(emailStatus.title).toEqual('emailSuccess')
+  })
 })
