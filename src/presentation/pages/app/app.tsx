@@ -4,6 +4,14 @@ import { Login } from '@/presentation/pages/';
 
 import '../../styles/globals.scss';
 
+/*const makeLogin: React.FC = () => {
+  return (
+    <Login
+      validation={makeLoginValidation()}
+    />
+  )
+}
+*/
 const App: React.FC = () => {
   return (
     <BrowserRouter>
