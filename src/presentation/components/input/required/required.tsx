@@ -5,8 +5,7 @@ import Context from '@/presentation/context/form/form-context';
 
 const Required = ({name}) => {
   const value = useContext(Context)
-  const error = value[`${name}Error`]
-
+  const error = value.state[`${name}Error`]
   const getTitle = () => {
     return error  
   }
