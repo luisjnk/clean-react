@@ -68,4 +68,15 @@ describe('Login tests', () => {
     const emailStatus = sut.getByTestId('email-status')
     expect(emailStatus.title).toEqual(validationSpy.errorMessage)
   })
+
+
+  test('Should show password error if validation fails', () => {
+    const { sut, validationSpy } = makeSut();
+    const passwordInput = sut.getByTestId('password')
+    const password = faker.internet.password()
+
+    fireEvent.input(passwordInput, { target: { value: password } })
+    const passwordStatus = sut.getByTestId('password-status')
+    expect(passwordStatus.title).toEqual(validationSpy.errorMessage)
+  })
 })
