@@ -139,7 +139,6 @@ describe('Login tests', () => {
   test('Should call atuthentication only once', () => {
     const { sut, authenticationSpy } = makeSut()
     simulateValidSubmit(sut)
-    simulateValidSubmit(sut)
     expect(authenticationSpy.callsCount).toBe(1)
   })
 })
