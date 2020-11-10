@@ -4,27 +4,30 @@ import { render, RenderResult, fireEvent, screen } from '@testing-library/react'
 import Login from './login';
 import ValidationSpy from '@/presentation/test/mock-validation';
 import faker from "faker";
-import { Authentication, AuthenticationParms } from '@/domain/usecases/authentication';
-import { AccountModel } from '@/domain/models/account-model';
-import { mockAccountModel } from '@/test/mock-account';
+import AuthenticationSpy from '@/presentation/test/mock-authentication';
 
-
-class AuthenticationSpy implements Authentication {
-  account = mockAccountModel()
-  params: AuthenticationParms
-  
-  async auth(params: AuthenticationParms): Promise<AccountModel> {
-    this.params = params
-    return Promise.resolve(this.account)
-  }
-
-}
 type SutTypes = {
   sut: RenderResult
   validationSpy: ValidationSpy
   authenticationSpy: AuthenticationSpy
 }
 
+const simulateValidSubmit = (
+  sut: RenderResult,
+  email = faker.internet.email(),
+  password = faker.internet.password()
+) => {
+
+  const emailInput = sut.getByTestId('email')
+  const passwordInput = sut.getByTestId('password')
+
+  fireEvent.input(passwordInput, { target: { value: password } })
+  fireEvent.input(emailInput, { target: { value: email } })
+
+  const submitButton = sut.getByTestId('login-button')
+  fireEvent.click(submitButton)
+
+}
 
 const makeSut = ( errorMessage?:string ): SutTypes => {
   const validationSpy = new ValidationSpy();
@@ -123,22 +126,20 @@ describe('Login tests', () => {
   test('Should call Authentication with correct values', () => {
     const { sut, authenticationSpy } = makeSut()
     
-    const emailInput = sut.getByTestId('email')
-    const passwordInput = sut.getByTestId('password')
-    
     const password = faker.internet.password()
     const email = faker.internet.email()
-
-    fireEvent.input(passwordInput, { target: { value: password } })
-    fireEvent.input(emailInput, { target: { value: email } })
-
-    const submitButton = sut.getByTestId('login-button')
-    fireEvent.click(submitButton)
-
+    simulateValidSubmit(sut, email, password)
     expect(authenticationSpy.params).toEqual({
       email,
       password
     })
 
+  })
+
+  test('Should call atuthentication only once', () => {
+    const { sut, authenticationSpy } = makeSut()
+    simulateValidSubmit(sut)
+    simulateValidSubmit(sut)
+    expect(authenticationSpy.callsCount).toBe(1)
   })
 })

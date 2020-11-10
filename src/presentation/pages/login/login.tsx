@@ -43,14 +43,13 @@ const Login: React.FC<Props> = ({ validation, authentication}: Props) => {
   }, [state.email])
 
   useEffect(() => {
-    console.log("asdsada", validation.validate("password", state.password))
     setState({...state, passwordError: validation.validate("password", state.password)
   })
   }, [state.password])
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
-
+    console.log("XXXXXXXXX TA AU")
     setState({...state, isLoading: true})
     await authentication.auth({
       email: state.email,
