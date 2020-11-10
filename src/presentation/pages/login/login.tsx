@@ -10,7 +10,7 @@ import Context from '../../context/form/form-context';
 import { ERROR_MESSAGES } from '@/presentation/utils/contants';
 import { Validation } from '@/presentation/protocols/validation';
 import { Authentication } from '@/domain/usecases/authentication';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 type StatePros = {
   isLoading: boolean,
@@ -39,6 +39,7 @@ type Props = {
 
 const Login: React.FC<Props> = ({ validation, authentication }: Props) => {
   const [state, setState] = useState<StatePros>(INITAL_STATE);
+  const history = useHistory()
 
   useEffect(() => {
     setState({
@@ -64,6 +65,8 @@ const Login: React.FC<Props> = ({ validation, authentication }: Props) => {
         email: state.email,
         password: state.password
       })
+
+      history.replace("/")
 
     } catch (error) {
       setState({
