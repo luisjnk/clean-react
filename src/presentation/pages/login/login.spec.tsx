@@ -26,10 +26,25 @@ const simulateValidSubmit = (
 
   const submitButton = sut.getByTestId('login-button')
   fireEvent.click(submitButton)
-
+}
+const populateEmailField = (sut: RenderResult,
+  email = faker.internet.email(),) => {
+  const emailInput = sut.getByTestId('email')
+  fireEvent.input(emailInput, { target: { value: email } })
 }
 
-const makeSut = ( errorMessage?:string ): SutTypes => {
+const populatePasswordField = (sut: RenderResult,
+  password = faker.internet.password()) => {
+  const passwordInput = sut.getByTestId('password')
+  fireEvent.input(passwordInput, { target: { value: password } })
+}
+
+const submitButton = (sut: RenderResult) => {
+  const submitButton = sut.getByTestId('login-button')
+  fireEvent.click(submitButton)
+}
+
+const makeSut = (errorMessage?: string): SutTypes => {
   const validationSpy = new ValidationSpy();
   const authenticationSpy = new AuthenticationSpy();
   validationSpy.errorMessage = errorMessage
@@ -90,7 +105,6 @@ describe('Login tests', () => {
     expect(emailStatus.title).toEqual(validationSpy.errorMessage)
   })
 
-
   xtest('Should show password error if validation fails', () => {
     const { sut, validationSpy } = makeSut(faker.random.words());
     const passwordInput = sut.getByTestId('password')
@@ -125,7 +139,7 @@ describe('Login tests', () => {
 
   test('Should call Authentication with correct values', () => {
     const { sut, authenticationSpy } = makeSut()
-    
+
     const password = faker.internet.password()
     const email = faker.internet.email()
     simulateValidSubmit(sut, email, password)
@@ -140,5 +154,14 @@ describe('Login tests', () => {
     const { sut, authenticationSpy } = makeSut()
     simulateValidSubmit(sut)
     expect(authenticationSpy.callsCount).toBe(1)
+  })
+
+  test('Should not call authentication if form is invalid', () => {
+    const validationError = faker.random.words()
+
+    const { sut, authenticationSpy } = makeSut(validationError)
+    populateEmailField(sut)
+    fireEvent.submit(sut.getByTestId('form'))
+    expect(authenticationSpy.callsCount).toBe(0)
   })
 })
