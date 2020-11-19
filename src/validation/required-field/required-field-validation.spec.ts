@@ -1,22 +1,5 @@
-interface FieldValidation {
-  field: string,
-  validate(value: string): Error
-}
-
-class RequiredFieldValidation implements FieldValidation {
-  constructor (readonly field: string) {}
-
-  validate(value: string): Error {
-    return new RequiredFieldError();
-  } 
-}
-
-class RequiredFieldError extends Error {
-  constructor () {
-    super("Campo obrigadtório")
-    this.name = "RequiredFieldError"
-  }
-}
+import {RequiredFieldError} from "../errors/require-field.error";
+import RequiredFieldValidation from "./require-field.validation";
 
 describe('RequiredFieldValidation', () => {
   test('Should return error if field is an empty', () => {
